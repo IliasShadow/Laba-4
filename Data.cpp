@@ -1,4 +1,7 @@
 #include <iostream>
+#include <cstring>
+using namespace std;
+
 class Data{
 	public:
 	bool isOurEra;
@@ -10,7 +13,7 @@ class Data{
 	int second;
 	public:
 	Data(){
-	this->IsOurEra=1;
+	this->isOurEra=1;
 	this->year=1980;
 	this->month=1;
 	this->day=1;
@@ -18,6 +21,9 @@ class Data{
 	this->minute=0;
 	this->second=0;
 	}
+	 bool visok(int year){
+        return (((year%4==0)&&(year%100!=0))||(year%400==0));
+		}
 	void norm(){
 		minute+=second/60;
 		second%=60;
@@ -35,9 +41,9 @@ class Data{
             hour+= 24;
             day--;
         }
+
 		int daysofMonth[]={31,28,31,30,31,30,31,31,30,31,30,31};
-		bool visok(int year){
-        return (((year%4==0)&&(year%100!=0))||(year%400==0));
+
 		 while (day<1){
             month--;
             if (month<1){
@@ -59,9 +65,8 @@ class Data{
             isOurEra=0;
         }else{isOurEra=1;}
     }
-	}
 	Data(const Data& dat){
-		this->IsOurEra=dat.IsOurEra;
+		this->isOurEra=dat.isOurEra;
 	    this->year=dat.year;
 	    this->month=dat.month;
 	    this->day=dat.day;
@@ -70,7 +75,7 @@ class Data{
 	    this->second=dat.second;
 	}
 	Data& operator =(const Data& dat){
-		this->IsOurEra=dat.IsOurEra;
+		this->isOurEra=dat.isOurEra;
 	    this->year=dat.year;
 	    this->month=dat.month;
 	    this->day=dat.day;
@@ -101,13 +106,13 @@ class Data{
 		r.norm();
 		return r;
 	}
-	
+
 	bool operator ==(const Data& dat){
 		Data r;
-		if ((IsOurEra==dat.IsOurEra)&& (year==dat.year) && (month==dat.month)&& (day==dat.day)&& (hour==dat.hour)&& (minute==dat.minute)&& (second==dat.second)) return 1;
+		if ((isOurEra==dat.isOurEra)&& (year==dat.year) && (month==dat.month)&& (day==dat.day)&& (hour==dat.hour)&& (minute==dat.minute)&& (second==dat.second)) return 1;
 	}
 	bool operator <=(const Data& dat){
-		if ((IsOurEra<=dat.IsOurEra)&& (year<=dat.year) && (month<=dat.month)&& (day<=dat.day)&& (hour<=dat.hour)&& (minute<=dat.minute)&& (second<=dat.second)) return 1;
+		return  ((isOurEra<=dat.isOurEra)&& (year<=dat.year) && (month<=dat.month)&& (day<=dat.day)&& (hour<=dat.hour)&& (minute<=dat.minute)&& (second<=dat.second));
 	}
 	bool operator <(const Data& dat){
 		if (isOurEra!=dat.isOurEra){
@@ -116,19 +121,19 @@ class Data{
 	if (year!=dat.year){
 	return year<dat.year;
 	}else{
-	if (dat1.month!=dat.month){
+	if (month!=dat.month){
 	return month<dat.month;
 	}else{
-	if (dat1.day!=dat.day){
+	if (day!=dat.day){
 	return day<dat.day;
 	}else{
-	if (dat1.hour!=dat.hour){
+	if (hour!=dat.hour){
 	return hour<dat.hour;
 	}else{
-	if (dat1.minute!=dat.minute){
+	if (minute!=dat.minute){
 	return minute<dat.minute;
 	}else{
-	if (dat1.second>dat.second){
+	if (second>dat.second){
 	return second<dat.second;
 	}else return 0;
 	}
@@ -168,28 +173,29 @@ class Data{
 	}
 		}
 	bool operator >=(const Data& dat){
-		if ((IsOurEra>=dat.IsOurEra)&& (year>=dat.year) && (month>=dat.month)&& (day>=dat.day)&& (hour>=dat.hour)&& (minute>=dat.minute)&& (second>=dat.second)) return 1;
+		return ((isOurEra>=dat.isOurEra)&& (year>=dat.year) && (month>=dat.month)&& (day>=dat.day)&& (hour>=dat.hour)&& (minute>=dat.minute)&& (second>=dat.second));
 	}
-	
+
 	Data& operator +=(const Data& dat){
-	    int year1=dat.year;
-	    int month1=dat.month;
-	    int day1=dat.day;
-	    int hour1=dat.hour;
-	    int minute1=dat.minute;
-	    int second1=dat.second;
-		this.add(year1,month1,day1,hour1,minute1,second1);
+	    year+=dat.year;
+	    month+=dat.month;
+	    day+=dat.day;
+	    hour+=dat.hour;
+	    minute+=dat.minute;
+	    second+=dat.second;
+		norm();
 		return *this;
 	}
 	Data& operator -=(const Data& dat){
-		int year1=dat.year;
-	    int month1=dat.month;
-	    int day1=dat.day;
-	    int hour1=dat.hour;
-	    int minute1=dat.minute;
-	    int second1=dat.second;
-		this.subtrack(year1,month1,day1,hour1,minute1,second1);
+		year-=dat.year;
+	    month-=dat.month;
+	    day-=dat.day;
+	    hour-=dat.hour;
+	    minute-=dat.minute;
+	    second-=dat.second;
+		norm();
 		return *this;
+
 	}
 	Data operator +(const Data& dat){
 		Data r;
@@ -213,18 +219,23 @@ class Data{
 		r.subtract(year1,month1,day1,hour1,minute1,second1);
 		return r;
 	}
-	friend ostream& operator <<(ostream& os, const Data& dat){
+	friend ostream& operator<<(ostream& os, const Data& dat){
         os << dat.year << " " << dat.month << " " << dat.day << " " << dat.hour << " " << dat.minute << " " << dat.second;
-        if (dat.isOurEra) os << " íàøåé ığû";
-        else os << " äî íàøåé ığû";
+        if (dat.isOurEra) os << " Ğ½Ğ°ÑˆĞµĞ¹ ÑÑ€Ñ‹";
+        else os << " Ğ´Ğ¾ Ğ½Ğ°ÑˆĞµĞ¹ ÑÑ€Ñ‹";
         return os;
 	}
-}
-int main{
+
+};
+int main(){
 	setlocale(0,"");
 	Data set1,set2;
-	set2.add(10,1,12,15,19,1);
+	set2=set2.add(10,1,12,15,19,1);
 	cout<<set1<<endl;
+	cout<<set2<<endl;
+	cout<<(set1>=set2)<<endl;
+	cout<<(set1<set2)<<endl;
+	set2=set2.subtract(10,1,12,15,19,1);
 	cout<<set2<<endl;
 	return 0;
 }
