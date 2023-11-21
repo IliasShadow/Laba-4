@@ -74,6 +74,15 @@ class Data{
 	    this->minute=dat.minute;
 	    this->second=dat.second;
 	}
+	Data(int year1,int month1,int day1,int hour1,int minute1,int second1,bool isOurEra1){
+		this->isOurEra=isOurEra1;
+	    this->year=year1;
+	    this->month=month1;
+	    this->day=day1;
+	    this->hour=hour1;
+	    this->minute=minute1;
+	    this->second=second1;
+	}
 	Data& operator =(const Data& dat){
 		this->isOurEra=dat.isOurEra;
 	    this->year=dat.year;
@@ -229,13 +238,23 @@ class Data{
 };
 int main(){
 	setlocale(0,"");
-	Data set1,set2;
-	set2=set2.add(10,1,12,15,19,1);
-	cout<<set1<<endl;
-	cout<<set2<<endl;
-	cout<<(set1>=set2)<<endl;
-	cout<<(set1<set2)<<endl;
-	set2=set2.subtract(10,1,12,15,19,1);
-	cout<<set2<<endl;
-	return 0;
+	int main() {
+    Data d1;
+    cout << d1  << endl;
+    Data d2(2060, 1, 1, 0, 0, 0, true);
+    cout << (d1 > d2) << endl;
+    cout << (d1 < d2) << endl;
+    cout << (d1 == d2) << endl;
+    Data d3 = d2.substruct(2060, 1, 1, 0, 0, 0);
+    Data d4(d3 + d2 - d1);
+    Data d5(d4);
+    d4 += d5 - d4.add(40, 1, 1, 0, 0, 0);
+
+    cout << d3 << endl;
+    cout << d4 << endl;
+    cout << d5 << endl;
+
+    return 0;
+}
+
 }
