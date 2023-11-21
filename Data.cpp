@@ -205,7 +205,7 @@ class Data{
 	    int hour1=dat.hour;
 	    int minute1=dat.minute;
 	    int second1=dat.second;
-		r.add(year1,month1,day1,hour1,minute1,second1);
+		r=r.add(year1,month1,day1,hour1,minute1,second1);
 		return r;
 	}
 	Data operator -(const Data& dat){
@@ -216,7 +216,7 @@ class Data{
 	    int hour1=dat.hour;
 	    int minute1=dat.minute;
 	    int second1=dat.second;
-		r.subtract(year1,month1,day1,hour1,minute1,second1);
+		r=r.subtract(year1,month1,day1,hour1,minute1,second1);
 		return r;
 	}
 	friend ostream& operator<<(ostream& os, const Data& dat){
