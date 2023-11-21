@@ -42,7 +42,7 @@ class Data{
             day--;
         }
 
-		int daysofMonth[]={31,28,31,30,31,30,31,31,30,31,30,31};
+		int daysofMonth[]={0,31,28,31,30,31,30,31,31,30,31,30,31};
 
 		 while (day<1){
             month--;
@@ -50,7 +50,7 @@ class Data{
                 month=12;
                 year--;
             }
-            int days=daysofMonth[month+1];
+            int days=daysofMonth[month];
             if (month==2 && visok(year)){
                 days++;
             }
